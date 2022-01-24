@@ -150,14 +150,31 @@ fun part1 :: "string \<Rightarrow> natural"
     sum (map count_bool (map (\<lambda>((min_c, max_c, c),str). matches_policy (min_c, max_c, c) str) policies))
   )"
 
-export_code "part1" in Haskell module_name Solution
+text "define nth for the natural type (it's only defined for nat by default)"
+
+fun nnth :: "'a list \<Rightarrow> natural \<Rightarrow> 'a"
+  where "nnth (Cons c rest) n = (if n = 0 then c else nnth rest (n-1))"
+  | "nnth Nil n = undefined"
+
+definition xor :: "bool \<Rightarrow> bool \<Rightarrow> bool"
+  where "xor a b \<equiv> (a \<and> \<not>b) \<or> (b \<and> \<not>a)"
+
+fun matches_policy_2 :: "policy \<Rightarrow> string \<Rightarrow> bool"
+  where "matches_policy_2 (ca, cb, c) str = xor ((nnth str (ca-1)) = c) ((nnth str (cb-1)) = c)"
 
 text "We expect our test case to return 2"
 
 value "part1 example_input"
 
-(*
+fun part2 :: "string \<Rightarrow> natural"
+  where "part2 a = (let policies = (parse_input a) in
+    sum (map count_bool (map (\<lambda>((min_c, max_c, c),str). matches_policy_2 (min_c, max_c, c) str) policies))
+  )"
+
+text "And for part 2 it should return 1"
 
 value "part2 example_input"
-*)
+
+export_code "part1" "part2" in Haskell module_name Solution
+
 end
