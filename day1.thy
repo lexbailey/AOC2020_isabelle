@@ -1,8 +1,8 @@
+section "Solution to Day 1 of AoC 2020"
+
 theory day1
   imports Main "HOL.Code_Numeral"
 begin
-
-section "Solution to Day 1 of AoC 2020"
 
 text "This is a solution to the puzzle for day 1"
 
@@ -49,9 +49,8 @@ text "The solution to part 1 is simply (@{const prod_of_sum} 2020) applied to th
 fun part1 :: "String.string \<Rightarrow> natural"
   where "part1 a = (prod_of_sum 2020 (parse_input a))"
 
-fun product :: "natural * natural \<Rightarrow> natural"
-  where "product (a, b) = a * b"
-
+text "For the second part we need to do a little bit more checking, we now need three differen
+numbers from the list to add to the target value of 2020"
 
 fun prod3_of_sum :: "natural \<Rightarrow> natural list \<Rightarrow> natural"
   where "prod3_of_sum t (Cons h rest) =
