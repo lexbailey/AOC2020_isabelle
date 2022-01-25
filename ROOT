@@ -3,5 +3,6 @@ session AOC2020 = HOL +
   theories
     day1
     day2
+    day3
   document_files
     "root.tex"

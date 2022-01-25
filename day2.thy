@@ -156,11 +156,11 @@ fun nnth :: "'a list \<Rightarrow> natural \<Rightarrow> 'a"
   where "nnth (Cons c rest) n = (if n = 0 then c else nnth rest (n-1))"
   | "nnth Nil n = undefined"
 
-definition xor :: "bool \<Rightarrow> bool \<Rightarrow> bool"
+definition xor :: "bool \<Rightarrow> bool \<Rightarrow> bool" (infixl "\<oplus>" 60) 
   where "xor a b \<equiv> (a \<and> \<not>b) \<or> (b \<and> \<not>a)"
 
 fun matches_policy_2 :: "policy \<Rightarrow> string \<Rightarrow> bool"
-  where "matches_policy_2 (ca, cb, c) str = xor ((nnth str (ca-1)) = c) ((nnth str (cb-1)) = c)"
+  where "matches_policy_2 (ca, cb, c) str = ((nnth str (ca-1)) = c) \<oplus> ((nnth str (cb-1)) = c)"
 
 text "We expect our test case to return 2"
 
