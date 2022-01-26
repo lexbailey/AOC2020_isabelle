@@ -4,6 +4,7 @@ import Data.Char
 import Solution;
 
 todays_input = TODAYS_INPUT
+day_num = DAY_NUMBER
 
 input = readFile todays_input
 
@@ -42,6 +43,7 @@ convert_string s = map convert_char s
 
 main :: IO()
 main = do
+    putStrLn ("Running solution for " ++ day_num ++ " (input file: " ++ todays_input ++ ")")
     text <- input
     let a = convert_string text in do
         putStrLn "Part1:"

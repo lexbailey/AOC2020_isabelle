@@ -1,99 +1,14 @@
 section "Solution to Day 2 of AoC 2020"
 
 theory day2
-  imports Main "HOL.Code_Numeral"
+  imports Main "HOL.Code_Numeral" string_utils natural_utils list_natural_utils
 begin
 
 text "This is a solution to the puzzle for day 2"
 
-text "For converting numbers in strings into naturals, we have a table of character values to
-naturals"
+subsection "Input parsing"
 
-fun digit :: "char \<Rightarrow> natural"
-  where "digit CHR ''0'' = 0"
-  |"digit CHR ''1'' = 1"
-  |"digit CHR ''2'' = 2"
-  |"digit CHR ''3'' = 3"
-  |"digit CHR ''4'' = 4"
-  |"digit CHR ''5'' = 5"
-  |"digit CHR ''6'' = 6"
-  |"digit CHR ''7'' = 7"
-  |"digit CHR ''8'' = 8"
-  |"digit CHR ''9'' = 9"
-  |"digit a = 0"
-
-text "Next we need some text processing functions"
-
-fun split_once :: "char \<Rightarrow> string \<Rightarrow> (string * string)"
-  where "split_once c (Cons n str) = (
-    if c = n then (
-      '''', str
-    ) else (
-      let (s1, s2) = split_once c str in
-      ((Cons n s1), s2)
-    )
-  )"
-  | "split_once c Nil = (Nil,Nil)"
-
-text "example, get the first item of ''foo:bar:baz'' splitting in '':''
-to get ''foo'' and ''bar:baz'' "
-value "split_once (CHR '':'') ''foo:bar:baz''"
-
-fun split :: "'a \<Rightarrow> 'a list \<Rightarrow> 'a list list"
-  where "split c Nil = [[]]"
-  |"split c (Cons next rest) = (
-    (let sub_list = (split c rest) in
-      (if c = next then (
-        Cons [] sub_list
-      ) else (
-        (case sub_list of
-          Nil \<Rightarrow> (Cons [next] Nil)
-          | (Cons a rest) \<Rightarrow> (Cons (Cons next a) rest)
-        )
-      ))
-    )
-  )"
-
-text "Now we can split all items, our text correctly evaluates to [''foo'', ''bar'', ''baz'']"
-
-value "split CHR '':'' ''foo:bar:baz''"
-
-fun trim_end :: "string \<Rightarrow> string"
-  where "trim_end Nil = Nil"
-  | "trim_end (Cons c rest) = (let end = (trim_end rest) in (
-      (if (c = CHR '' '' \<or> c = CHR ''\<newline>'') then
-        (if end = '''' then '''' else (Cons c end))
-      else
-        Cons c end
-      )
-    ))"
-
-fun trim :: "string \<Rightarrow> string"
-  where "trim Nil = Nil"
-  |"trim (Cons c rest) = (
-    if (c = CHR '' '' \<or> c = CHR ''\<newline>'') then
-      trim rest
-    else
-      Cons c (trim_end rest)
-  )"
-
-text "trim is required because there might be a trailing newline in the file, which results in an
-extra empty element at the end of the list once we split the input on newlines"
-
-value "trim '' \<newline>\<newline>   foo   \<newline>\<newline>\<newline>  ''"
-
-text "Next we need to be able to parse integers"
-
-fun str_to_nat_partial :: "natural \<Rightarrow> string \<Rightarrow> natural"
-  where "str_to_nat_partial x Nil = x"
-  | "str_to_nat_partial x (Cons y rest) = str_to_nat_partial ((x * 10) + (digit y)) rest"
-
-fun str_to_nat :: "string \<Rightarrow> natural"
-  where "str_to_nat l = str_to_nat_partial 0 l"
-
-value "str_to_nat ''543''"
-
-text "now we are ready to parse the policies from the file"
+text "Parse the policies from the file"
 
 type_synonym policy = "(natural * natural * char)"
 
@@ -115,17 +30,7 @@ text "parse\\_input parses the whole file"
 fun parse_input :: "string \<Rightarrow> (policy * string) list"
   where "parse_input l = map (parse_line) (split CHR ''\<newline>'' (trim l))"
 
-definition example_input :: "string" where "example_input = ''1-3 a: abcde
-1-3 b: cdefg
-2-9 c: ccccccccc
-''"
-
-value "split CHR ''\<newline>'' (trim example_input)"
-value "parse_input example_input"
-
-primrec sum :: "natural list \<Rightarrow> natural"
-  where "sum [] = 0"
-  | "sum (Cons n tail) = (n + sum tail)"
+subsection "Solution Algorithm"
 
 text "recursively check if a policy matches, character by character"
 
@@ -139,37 +44,36 @@ fun matches_policy :: "policy \<Rightarrow> string \<Rightarrow> bool"
       (matches_policy (min_c, max_c, c) tail)
     )"
 
-fun count_bool :: "bool \<Rightarrow> natural"
-  where "count_bool True = 1"
-  | "count_bool False = 0"
-
 text "The solution to part1 counts the number of entires in the list where the string matches
 the policy"
 fun part1 :: "string \<Rightarrow> natural"
   where "part1 a = (let policies = (parse_input a) in
-    sum (map count_bool (map (\<lambda>((min_c, max_c, c),str). matches_policy (min_c, max_c, c) str) policies))
+    sum_list (map count_bool (map (\<lambda>((min_c, max_c, c),str). matches_policy (min_c, max_c, c) str) policies))
   )"
-
-text "define nth for the natural type (it's only defined for nat by default)"
-
-fun nnth :: "'a list \<Rightarrow> natural \<Rightarrow> 'a"
-  where "nnth (Cons c rest) n = (if n = 0 then c else nnth rest (n-1))"
-  | "nnth Nil n = undefined"
 
 definition xor :: "bool \<Rightarrow> bool \<Rightarrow> bool" (infixl "\<oplus>" 60) 
   where "xor a b \<equiv> (a \<and> \<not>b) \<or> (b \<and> \<not>a)"
 
 fun matches_policy_2 :: "policy \<Rightarrow> string \<Rightarrow> bool"
-  where "matches_policy_2 (ca, cb, c) str = ((nnth str (ca-1)) = c) \<oplus> ((nnth str (cb-1)) = c)"
+  where "matches_policy_2 (ca, cb, c) str = ((nth (ca-1) str) = c) \<oplus> ((nth (cb-1) str) = c)"
 
-text "We expect our test case to return 2"
-
-value "part1 example_input"
+text "Part 2 is like part 1 but the policy is different"
 
 fun part2 :: "string \<Rightarrow> natural"
   where "part2 a = (let policies = (parse_input a) in
-    sum (map count_bool (map (\<lambda>((min_c, max_c, c),str). matches_policy_2 (min_c, max_c, c) str) policies))
+    sum_list (map count_bool (map (\<lambda>((min_c, max_c, c),str). matches_policy_2 (min_c, max_c, c) str) policies))
   )"
+
+subsection "Testing"
+
+text "We expect our test case to return 2"
+
+definition example_input :: "string" where "example_input = ''1-3 a: abcde
+1-3 b: cdefg
+2-9 c: ccccccccc
+''"
+
+value "part1 example_input"
 
 text "And for part 2 it should return 1"
 
