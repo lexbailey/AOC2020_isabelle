@@ -13,3 +13,11 @@ make the solution for a particular day like so:
 then you can run it
 
     ./bin/day1
+
+you can also build and run all of the solutions at once
+
+    make test_all
+
+And just for fun there's a rule to build a PDF document
+
+    make output/document.pdf

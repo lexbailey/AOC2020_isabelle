@@ -35,7 +35,7 @@ documented_thy_files=$(patsubst %,%.thy,$(all_days)) list_natural_utils.thy natu
 output/document.pdf: ROOT document/root.tex $(documented_thy_files)
 	isabelle document -d . -P output AOC2020
 
-.PHONY: default test_all
+.PHONY: test_all
 
 .SUFFIXES:
 
