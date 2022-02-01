@@ -27,8 +27,11 @@ bin/%: objs/%.o objs/runner_%.o
 empty:=
 space:=$(space) $(space)
 
-test_all: $(patsubst %,bin/%,$(all_days))
+run_all: $(patsubst %,bin/%,$(all_days))
 	$(subst $(space),;,$^)
+
+test_all: $(patsubst %,bin/%,$(all_days))
+	for day in $(all_days); do ./test $$day; done
 
 documented_thy_files=$(patsubst %,%.thy,$(all_days)) list_natural_utils.thy natural_utils.thy string_utils.thy
 

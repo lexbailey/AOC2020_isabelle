@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+day=$1
+
+mkdir -p test_tmp
+n_lines=$(wc -l ./test_expect/$day | sed 's/[^0-9]*\([0-9][0-9]*\).*/\1/')
+./bin/$day | tail -n$n_lines > ./test_tmp/$day
+diff ./test_expect/$day ./test_tmp/$day > /dev/null
+correct=$?
+
+if [ $correct == 0 ]; then
+    tput setaf 2
+    echo $day passed
+    tput sgr0
+else
+    tput setaf 1
+    echo $day failed
+    tput sgr0
+    echo "Expected:"
+    echo
+    cat ./test_expect/$day
+    echo
+    echo "Got:"
+    echo
+    cat ./test_tmp/$day
+    echo
+fi
