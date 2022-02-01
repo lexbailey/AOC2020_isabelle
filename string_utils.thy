@@ -137,4 +137,14 @@ definition is_hexit :: "char \<Rightarrow> bool"
     |a \<Rightarrow> False
   ))"
 
+fun join_lines :: "char \<Rightarrow> string \<Rightarrow> string"
+  where "join_lines j [] = []"
+  |"join_lines j [c] = [c]"
+  |"join_lines j (Cons CHR ''\<newline>'' (Cons c rest)) = (
+    case c of
+      (CHR ''\<newline>'') \<Rightarrow> Cons (CHR ''\<newline>'') (join_lines j rest)
+      | other \<Rightarrow> Cons j (join_lines j (Cons other rest))
+  )"
+  |"join_lines j (Cons c rest) = Cons c (join_lines j rest)"
+
 end

@@ -1,7 +1,7 @@
 section "Solution to Day 5 of AoC 2020"
 
 theory day5
-  imports Main "HOL.Code_Numeral" string_utils list_natural_utils natural_utils list_utils
+  imports Main "HOL.Code_Numeral" string_utils list_natural_utils list_utils
 begin
 
 text "This is a solution to the puzzle for day 5"
@@ -36,9 +36,6 @@ definition part1 :: "string \<Rightarrow> natural"
 
 text "the second part is a little more interesting, find a number N in the range 0 to 1023 which is
 not in the list, but where N+1 and N-1 are in the list"
-
-definition contains :: "'a \<Rightarrow> 'a list \<Rightarrow> bool"
-  where "contains item l = reduce (\<or>) False (map ((=) item) l)"
 
 definition is_hole :: "natural \<Rightarrow> natural list \<Rightarrow> bool"
   where "is_hole n l = (

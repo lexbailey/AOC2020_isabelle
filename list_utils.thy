@@ -10,4 +10,7 @@ primrec reduce :: "('a \<Rightarrow> 'b \<Rightarrow> 'a) \<Rightarrow> 'a \<Rig
   where "reduce _ a [] = a"
   |"reduce f a (Cons b rest) = (reduce f (f a b) rest)"
 
+definition contains :: "'a \<Rightarrow> 'a list \<Rightarrow> bool"
+  where "contains item l = reduce (\<or>) False (map ((=) item) l)"
+
 end

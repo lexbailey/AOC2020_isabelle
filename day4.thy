@@ -13,15 +13,8 @@ across multiple lines. We parse it by joining together the multiline records int
 and collapsing the double newlines into single newlines, then splitting on newlines and parsing each
 line as a record"
 
-fun join_records :: "string \<Rightarrow> string"
-  where "join_records [] = []"
-  |"join_records [c] = [c]"
-  |"join_records (Cons CHR ''\<newline>'' (Cons c rest)) = (
-    case c of
-      (CHR ''\<newline>'') \<Rightarrow> Cons (CHR ''\<newline>'') (join_records rest)
-      | other \<Rightarrow> Cons (CHR '' '') (join_records (Cons other rest))
-  )"
-  |"join_records (Cons c rest) = Cons c (join_records rest)"
+definition join_records :: "string \<Rightarrow> string"
+  where "join_records = join_lines CHR '' ''"
 
 text "Passport information is stored as a record of string options, since some fields can be missing"
 
