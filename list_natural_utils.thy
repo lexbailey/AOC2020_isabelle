@@ -32,4 +32,7 @@ definition enum_natural :: "'a list \<Rightarrow> (natural * 'a) list"
 definition skip_each :: "natural \<Rightarrow> 'a list \<Rightarrow> 'a list"
   where "skip_each n l = map snd ((filter (\<lambda>(i,v). i nmod (n+1) = 0) (enum_natural l)))"
 
+fun upto_natural :: "natural \<Rightarrow> natural \<Rightarrow> natural list" ("(1[_...</_'])")
+  where "upto_natural i j = (if j = 0 then [] else (if i \<le> j-1 then [i...<j-1] @ [j-1] else []))"
+
 end

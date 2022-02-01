@@ -1,5 +1,5 @@
 
-all_days=day1 day2 day3
+all_days=day1 day2 day3 day4 day5
 
 default: test_all
 

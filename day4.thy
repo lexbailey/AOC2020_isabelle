@@ -98,32 +98,6 @@ definition part1 :: "string \<Rightarrow> natural"
 text "In part 2 we do the same but with lots of extra rules. The rules suck and you would never get
 away with implementing these rules in the real world, but I guess I'll look past that for now."
 
-definition is_digit :: "char \<Rightarrow> bool"
-  where "is_digit a = (case a of
-    (CHR ''0'') \<Rightarrow> True
-    |(CHR ''1'') \<Rightarrow> True
-    |(CHR ''2'') \<Rightarrow> True
-    |(CHR ''3'') \<Rightarrow> True
-    |(CHR ''4'') \<Rightarrow> True
-    |(CHR ''5'') \<Rightarrow> True
-    |(CHR ''6'') \<Rightarrow> True
-    |(CHR ''7'') \<Rightarrow> True
-    |(CHR ''8'') \<Rightarrow> True
-    |(CHR ''9'') \<Rightarrow> True
-    |a \<Rightarrow> False
-  )"
-
-definition is_hexit :: "char \<Rightarrow> bool"
-  where "is_hexit a = ((is_digit a) \<or> (case a of
-    (CHR ''a'') \<Rightarrow> True
-    |(CHR ''b'') \<Rightarrow> True
-    |(CHR ''c'') \<Rightarrow> True
-    |(CHR ''d'') \<Rightarrow> True
-    |(CHR ''e'') \<Rightarrow> True
-    |(CHR ''f'') \<Rightarrow> True
-    |a \<Rightarrow> False
-  ))"
-
 definition all :: "bool list \<Rightarrow> bool"
   where "all = reduce (\<and>) True"
 

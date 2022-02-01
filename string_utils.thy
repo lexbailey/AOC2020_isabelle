@@ -95,11 +95,46 @@ fun digit :: "char \<Rightarrow> natural"
 
 text "Next we need to be able to parse naturals"
 
+fun str_to_nat_base_partial :: "natural \<Rightarrow> natural \<Rightarrow> string \<Rightarrow> natural"
+  where "str_to_nat_base_partial b x Nil = x"
+  | "str_to_nat_base_partial b x (Cons y rest) = str_to_nat_base_partial b ((x * b) + (digit y)) rest"
+(*
 fun str_to_nat_partial :: "natural \<Rightarrow> string \<Rightarrow> natural"
   where "str_to_nat_partial x Nil = x"
   | "str_to_nat_partial x (Cons y rest) = str_to_nat_partial ((x * 10) + (digit y)) rest"
+*)
+definition str_to_nat_base :: "natural \<Rightarrow> string \<Rightarrow> natural"
+  where "str_to_nat_base b = str_to_nat_base_partial b 0"
 
-fun str_to_nat :: "string \<Rightarrow> natural"
-  where "str_to_nat l = str_to_nat_partial 0 l"
+definition str_to_nat :: "string \<Rightarrow> natural"
+  where "str_to_nat = str_to_nat_base_partial 10 0"
+
+text "Some tests for classes of characters"
+
+definition is_digit :: "char \<Rightarrow> bool"
+  where "is_digit a = (case a of
+    (CHR ''0'') \<Rightarrow> True
+    |(CHR ''1'') \<Rightarrow> True
+    |(CHR ''2'') \<Rightarrow> True
+    |(CHR ''3'') \<Rightarrow> True
+    |(CHR ''4'') \<Rightarrow> True
+    |(CHR ''5'') \<Rightarrow> True
+    |(CHR ''6'') \<Rightarrow> True
+    |(CHR ''7'') \<Rightarrow> True
+    |(CHR ''8'') \<Rightarrow> True
+    |(CHR ''9'') \<Rightarrow> True
+    |a \<Rightarrow> False
+  )"
+
+definition is_hexit :: "char \<Rightarrow> bool"
+  where "is_hexit a = ((is_digit a) \<or> (case a of
+    (CHR ''a'') \<Rightarrow> True
+    |(CHR ''b'') \<Rightarrow> True
+    |(CHR ''c'') \<Rightarrow> True
+    |(CHR ''d'') \<Rightarrow> True
+    |(CHR ''e'') \<Rightarrow> True
+    |(CHR ''f'') \<Rightarrow> True
+    |a \<Rightarrow> False
+  ))"
 
 end
