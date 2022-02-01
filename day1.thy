@@ -8,8 +8,8 @@ text "This is a solution to the puzzle for day 1"
 
 subsection "Input parsing"
 
-fun parse_input :: "string \<Rightarrow> natural list"
-  where "parse_input s = map str_to_nat (split CHR ''\<newline>'' s)"
+definition parse_input :: "string \<Rightarrow> natural list"
+  where "parse_input s = map str_to_nat (split CHR ''\<newline>'' (trim s))"
 
 subsection "Solution Algorithm"
 
