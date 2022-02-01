@@ -47,9 +47,6 @@ definition is_hole :: "natural \<Rightarrow> natural list \<Rightarrow> bool"
     \<and> (\<not>contains n l)
   )"
 
-value "[3..<5]"
-value "filter ((=) 4) [1...<5]"
-
 definition part2 :: "string \<Rightarrow> natural"
   where "part2 a = hd (let l = (parse_input a) in filter (\<lambda>b. is_hole b l) [0...<1024])"
 
