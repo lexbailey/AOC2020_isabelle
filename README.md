@@ -16,6 +16,10 @@ then you can run it
 
 you can also build and run all of the solutions at once
 
+    make run_all
+
+And also test them against my input files and expected answers
+
     make test_all
 
 And just for fun there's a rule to build a PDF document
