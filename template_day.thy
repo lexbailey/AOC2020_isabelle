@@ -1,10 +1,10 @@
-section "Solution to Day 6 of AoC 2020"
+section "Solution to Day N of AoC 2020"
 
-theory day6
+theory dayN
   imports Main "HOL.Code_Numeral" string_utils list_natural_utils natural_utils list_utils
 begin
 
-text "This is a solution to the puzzle for day 6"
+text "This is a solution to the puzzle for day N"
 
 subsection "Input parsing"
 
