@@ -13,4 +13,10 @@ primrec reduce :: "('a \<Rightarrow> 'b \<Rightarrow> 'a) \<Rightarrow> 'a \<Rig
 definition contains :: "'a \<Rightarrow> 'a list \<Rightarrow> bool"
   where "contains item l = reduce (\<or>) False (map ((=) item) l)"
 
+definition uniq_ins
+  where "uniq_ins l i = (if contains i l then l else Cons i l)"
+
+definition flatten
+  where "flatten ls = reduce (@) [] ls"
+
 end
