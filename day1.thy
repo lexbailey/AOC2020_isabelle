@@ -51,11 +51,13 @@ definition example_input :: "string" where "example_input = ''1721
 1456
 ''"
 
-value "part1 example_input"
+lemma "part1 example_input = 514579"
+  by eval
 
 text "We expect our test case for part 2 to return 241861950"
 
-value "part2 example_input"
+lemma "part2 example_input = 241861950"
+  by eval
 
 export_code "part1" "part2" in Haskell module_name Solution
 

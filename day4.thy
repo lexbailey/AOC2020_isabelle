@@ -160,11 +160,14 @@ hcl:#cfa07d eyr:2025 pid:166559648
 iyr:2011 ecl:brn hgt:59in
 ''"
 
-value "part1 example_input"
+lemma "part1 example_input = 2"
+  by eval
 
 text "For part 2 the example also returns 2"
 
-value "part2 example_input"
+lemma "part2 example_input = 2"
+  by eval
+
 
 export_code "part1" "part2" in Haskell module_name Solution
 

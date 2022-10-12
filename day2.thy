@@ -73,11 +73,13 @@ definition example_input :: "string" where "example_input = ''1-3 a: abcde
 2-9 c: ccccccccc
 ''"
 
-value "part1 example_input"
+lemma "part1 example_input = 2"
+  by eval
 
 text "And for part 2 it should return 1"
 
-value "part2 example_input"
+lemma "part2 example_input = 1"
+  by eval
 
 export_code "part1" "part2" in Haskell module_name Solution
 

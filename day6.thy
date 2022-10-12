@@ -82,11 +82,13 @@ a
 b
 ''"
 
-value "part1 example_input"
+lemma  "part1 example_input = 11"
+  by eval
 
 text "The same example input for part 2 should return 6"
 
-value "part2 example_input"
+lemma "part2 example_input = 6"
+  by eval
 
 export_code "part1" "part2" in Haskell module_name Solution
 

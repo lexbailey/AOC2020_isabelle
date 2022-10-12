@@ -69,18 +69,18 @@ fun can_hold_rec :: "natural \<Rightarrow> (string \<times> (natural \<times> st
 "can_hold_rec limit bag_defs bag_cols = (if limit = 0 then undefined else  (let new_list =
   (reduce uniq_ins bag_cols (flatten (map (can_hold bag_defs) bag_cols)))
   in
-  if length new_list = length bag_cols then bag_cols else can_hold_rec (limit - 1) bag_defs new_list
+  if natural_len new_list = natural_len bag_cols then bag_cols else can_hold_rec (limit - 1) bag_defs new_list
 ))
 "
 
 definition part1 :: "string \<Rightarrow> natural"
-  where "part1 s = natural_of_nat (length (can_hold_rec 99 (parse_all s) [p1col])) - 1"
+  where "part1 s = (natural_len (can_hold_rec 99 (parse_all s) [p1col])) - 1"
 
 fun num_held :: "natural \<Rightarrow> _"
   where "num_held limit bag_defs bag_col = 
   (if limit = 0 then undefined else
     (let subbags = get_bag_info bag_defs bag_col in
-      (if (length subbags) = 0 then 1 else
+      (if (natural_len subbags) = 0 then 1 else
         (reduce (+) 0 (map (\<lambda> (n, name) . n * (num_held (limit - 1) bag_defs name)) subbags)) + 1
       )
     )

@@ -57,7 +57,8 @@ FFFBBBFRRR
 BBFFBBFRLL
 ''"
 
-value "part1 example_input"
+lemma "part1 example_input = 820"
+  by eval
 
 text "For part 2 there was no example provided, so I wrote an example input, we expect 820 again."
 
@@ -73,7 +74,8 @@ BBFFBBFRRR
 
 (* 1100110100 *)
 
-value "part2 possible_input_2"
+lemma "part2 possible_input_2 = 820"
+  by eval
 
 export_code "part1" "part2" in Haskell module_name Solution
 
