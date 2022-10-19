@@ -16,6 +16,10 @@ primrec drop:: "natural \<Rightarrow> 'a list \<Rightarrow> 'a list"
   where drop_Nil: "drop n [] = []" |
   drop_Cons: "drop n (x # xs) = (case n of 0 \<Rightarrow> x # xs | Code_Numeral.Suc m \<Rightarrow> drop m xs)"
 
+primrec take_natural :: "natural \<Rightarrow> 'a list \<Rightarrow> 'a list"
+  where "take_natural n [] = []"
+  |"take_natural n (x # xs) = (case n of 0 \<Rightarrow> [] | Code_Numeral.Suc m \<Rightarrow> [x] @ (take_natural m xs))"
+
 definition natural_mod :: "natural \<Rightarrow> natural \<Rightarrow> natural" (infixl "nmod" 60)
   where "natural_mod a b = a - (b*(a div b))"
 

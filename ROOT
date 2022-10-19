@@ -12,5 +12,6 @@ session AOC2020 = HOL +
     day5
     day6
     day7
+    day8
   document_files
     "root.tex"

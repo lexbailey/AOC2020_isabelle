@@ -11,6 +11,10 @@ input = readFile todays_input
 solve part t = a
     where Nat a = part t
 
+#if INTEGER_SUPPORT
+solve_int part t = part t
+#endif
+
 unconvert_char :: Solution.Char -> Prelude.Char
 unconvert_char (Char a b c d e f g h) = chr o
     where o = ((if a then 0x01 else 0)
@@ -47,10 +51,18 @@ main = do
     text <- input
     let a = convert_string text in do
         putStrLn "Part1:"
+#if P1INTEGER
+        print $ solve_int part1 a
+#else
         print $ solve part1 a
+#endif
 #ifdef RUN_PART2
         putStrLn "Part2:"
+#if P2INTEGER
+        print $ solve_integer part2 a
+#else
         print $ solve part2 a
+#endif
 #else
 #if SKIP_PART2
         putStrLn "Part2 is skipped (no part2 function found)"

@@ -109,6 +109,13 @@ definition str_to_nat_base :: "natural \<Rightarrow> string \<Rightarrow> natura
 definition str_to_nat :: "string \<Rightarrow> natural"
   where "str_to_nat = str_to_nat_base_partial 10 0"
 
+fun str_to_int :: "string \<Rightarrow> integer"
+  where "str_to_int s = (case hd s of
+    CHR ''+'' \<Rightarrow>integer_of_natural (str_to_nat (tl s))
+    |CHR ''-'' \<Rightarrow> - integer_of_natural (str_to_nat (tl s))
+    | c \<Rightarrow> integer_of_natural (str_to_nat s)
+  )"
+
 text "Some tests for classes of characters"
 
 definition is_digit :: "char \<Rightarrow> bool"

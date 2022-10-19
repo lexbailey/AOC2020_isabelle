@@ -15,10 +15,10 @@ subsection "Solution Algorithm"
 (* TODO replace part1 and part2 below with real solutions *)
 
 definition part1 :: "string \<Rightarrow> natural"
-  where "part1 ="
+  where "part1 s = 0"
 
 definition part2 :: "string \<Rightarrow> natural"
-  where "part2 ="
+  where "part2 s = 0"
 
 subsection "Testing"
 
@@ -27,9 +27,11 @@ subsection "Testing"
 definition example_input::string where "example_input = ''
 ''"
 
-value "part1 example_input"
+lemma "part1 example_input = 0"
+  by eval
 
-value "part2 example_input"
+lemma "part2 example_input = 0"
+  by eval
 
 (* TODO remember to export part2 once complete *)
 
