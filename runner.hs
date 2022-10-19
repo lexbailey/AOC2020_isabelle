@@ -59,7 +59,7 @@ main = do
 #ifdef RUN_PART2
         putStrLn "Part2:"
 #if P2INTEGER
-        print $ solve_integer part2 a
+        print $ solve_int part2 a
 #else
         print $ solve part2 a
 #endif
